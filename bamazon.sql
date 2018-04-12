@@ -15,4 +15,14 @@ CREATE TABLE products(
 );
 
 INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('God of War','Video Games',29.95,40);
+INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('Uncharted','Video Games',29.95,30);
+INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('Dish Soap','Home Supplies',2.95,100);
+INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('Kitchen Paper Towels','Home Supplies',10.95,120);
+INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('Monopoly','Board Games',19.95,35);
+INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('Chess','Board Games',14.95,40);
+INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('Sequence','Board Games',9.95,40);
+INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('Titanic','Films',15,40);
+INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('Despicable Me','Films',14.99,40);
+INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('Ray Ban Sunglasses','Apparel',102.95,40);
+INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('Worn Denim Jeans','Apparel',55.25,40);
 SELECT * FROM products;
