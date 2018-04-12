@@ -13,3 +13,6 @@ CREATE TABLE products(
     stock_quantity INTEGER(10),
     PRIMARY KEY(item_id)
 );
+
+INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('God of War','Video Games',29.95,40);
+SELECT * FROM products;
