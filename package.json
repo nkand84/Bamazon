@@ -1,0 +1,27 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "Bamazon with node and mysql",
+  "main": "bamazonCustomer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nkand84/Bamazon.git"
+  },
+  "keywords": [
+    "node",
+    "mysql"
+  ],
+  "author": "Nitya Kandukuri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nkand84/Bamazon/issues"
+  },
+  "homepage": "https://github.com/nkand84/Bamazon#readme",
+  "dependencies": {
+    "inquirer": "^5.2.0",
+    "mysql": "^2.15.0"
+  }
+}
