@@ -69,7 +69,7 @@ function askQuestions(res) {
                     connection.end();
                     process.exit(1);
                 }
-                return true;
+                return true; 
             }
         }
     ]).then(function (answer) {
