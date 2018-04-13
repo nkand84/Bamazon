@@ -1,4 +1,5 @@
 # Bamazon
-Bamazon with Node and MySQL
+<p>Amazon-like storefront with the MySQL and Node JS</p>
 
-[![Alt text for your video](https://img.youtube.com/vi/T-D1KVIuvjA/0.jpg)](http://www.youtube.com/watch?v=T-D1KVIuvjA)
+<p>The app will take in orders from customers and deplete stock from the store's inventory. </p>
+<img src="bamazon.GIF" alt="Bamazon App Giphy">
