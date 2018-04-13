@@ -17,17 +17,18 @@ connection.connect(function (err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId + "\n");
     readProducts();
-    connection.end();
+    // connection.end();
 });
 // table should be displayed when the app starts
 // read table data
 function readProducts() {
-    console.log("Dsiplaying all products...\n");
+    console.log("Displaying all products...\n");
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
         // Log all results of the SELECT statement
         console.log(res);
         askQuestions(res);
+        // connection.end();
     });
 }
 function askQuestions(res) {
@@ -64,6 +65,7 @@ function askQuestions(res) {
                     console.log(newStockQty);
                     // update the table with the new updated value
                     updateStockValue(userSelection,newStockQty);
+                    
                 }
             }
         });
@@ -88,6 +90,7 @@ function updateStockValue(userSelection,newStockQty) {
             console.log(query.sql);
             // reading products again
             readProducts();
+            connection.end();
         }
     )
 }
