@@ -2,9 +2,9 @@
 var inquirer = require('inquirer');
 var mysql = require('mysql');
 var { table } = require('table');
+var color = require('bash-color');
 
 let data, output;
-
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -28,37 +28,33 @@ function readProducts() {
     var finalTable = [];
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
-        // Log all results of the SELECT statement
         // console.log(res);
         var data = ['ProductId', 'ProductName', 'DepartmentName', 'Price($)', 'StockQuantity'];
         finalTable.push(data);
         for (var i = 0; i < res.length; i++) {
-            data = [res[i].item_id, res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity];
+            data = [color.white(res[i].item_id), color.white(res[i].product_name), color.white(res[i].department_name), color.white(res[i].price), color.white(res[i].stock_quantity)];
             // console.log(data);
             finalTable.push(data);
         }
         // console.log(finalTable);
         output = table(finalTable);
-        console.log(output);
+        console.log(color.green(output));
         // connection.end();
         askQuestions(res);
     });
 }
-
+// inquirer prompt
 function askQuestions(res) {
     inquirer.prompt([
         {
             /* Pass your questions in here */
-            // questions are displayed 
-            // "what is the id of the item you would like to purchase? [Quit with Q]"
             type: "input",
             message: "what is the id of the item you would like to purchase? [Quit with Q]",
             name: "question1",
             validate: function (value) {
-                if (value.toUpperCase() == "Q") {
-                    console.log("its Q");
+                if (value.toUpperCase() === "Q") {
+                    connection.end();
                     process.exit(1);
-                    //  dont go to next question
                 }
                 return true;
             }
@@ -69,33 +65,29 @@ function askQuestions(res) {
             message: "how many would you like [Quit with Q]?",
             name: "question2",
             validate: function (value) {
-                if (value.toUpperCase() == "Q") {
+                if (value.toUpperCase() === "Q") {
+                    connection.end();
                     process.exit(1);
-                    //  dont go to next question
                 }
                 return true;
             }
         }
     ]).then(function (answer) {
-        //  console.log(answer.question1);
-        // loop through the array of objects
+
+        // loop through the array 
         var userSelection = answer.question1;
         var userSelectionQty = answer.question2;
-        console.log(userSelection);
-        console.log(userSelectionQty);
-
         for (var j = 0; j < res.length; j++) {
-            // console.log("id found " + res[i].item_id);
             if (userSelection == res[j].item_id) {
-                // console.log("you got it ");
                 if (userSelectionQty > res[j].stock_quantity) {
+                    // if the item is out of stock(if user enters more than the given stock qty)
+                    // message is displayed "Insufficient quantity!!"
                     console.log("Insufficent quantity!");
                     askQuestions(res);
                 }
                 else {
                     // get the stock qty of that particular item
                     var newStockQty = res[j].stock_quantity - userSelectionQty;
-                    console.log(newStockQty);
                     // update the table with the new updated value
                     updateStockValue(userSelection, newStockQty);
                 }
@@ -103,10 +95,9 @@ function askQuestions(res) {
         }
 
     });
-
-
 }
 
+// update stock function
 function updateStockValue(userSelection, newStockQty) {
     console.log("Updating the stock quantity...\n");
     var query = connection.query(
@@ -124,15 +115,10 @@ function updateStockValue(userSelection, newStockQty) {
             console.log(res.affectedRows + " product stock updated!\n");
             // logs the actual query being run
             console.log(query.sql);
+            // app starts again with prompt of questions 
             // reading products again
             readProducts();
-            // connection.end();
+
         }
     )
 }
-
-// show the questions again
-// if the item is out of stock(if user enters more than the given stock qty)
-// message is displayed "Insufficient quantity!!"
-// display table of items again
-// app starts again with prompt of questions 
