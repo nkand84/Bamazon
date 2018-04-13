@@ -22,6 +22,9 @@
   "homepage": "https://github.com/nkand84/Bamazon#readme",
   "dependencies": {
     "inquirer": "^5.2.0",
-    "mysql": "^2.15.0"
+    "json-schema-table": "^1.0.10",
+    "mysql": "^2.15.0",
+    "npm": "^5.8.0",
+    "table": "^4.0.3"
   }
 }
