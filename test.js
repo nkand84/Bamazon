@@ -30,9 +30,10 @@ function readProducts() {
         if (err) throw err;
         // Log all results of the SELECT statement
         // console.log(res);
+        var data = ['ProductId', 'ProductName', 'DepartmentName','Price($)','StockQuantity'];
+        finalTable.push(data);
         for (var i = 0; i < res.length; i++) {
-            // data = [['ProductId', 'ProductName', 'DepartmentName','Price($)','StockQuantity']];
-            var data = [res[i].item_id, res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity];
+            data = [res[i].item_id, res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity];
             // console.log(data);
             finalTable.push(data);
         }
@@ -50,53 +51,55 @@ function askQuestions(res) {
             /* Pass your questions in here */
             // questions are displayed 
             // "what is the id of the item you would like to purchase? [Quit with Q]"
-
             type: "input",
             message: "what is the id of the item you would like to purchase? [Quit with Q]",
             name: "question1",
-            validate: function(value) {
+            validate: function (value) {
                 if (value.toUpperCase() == "Q") {
-                  console.log("its Q");
+                    console.log("its Q");
+                    process.exit(1);
+                    //  dont go to next question
                 }
-                console.log("not Q");
-              }
-      
+                return true;
+            }
         },
         {
             // how many would you like [Quit with Q]? 
             type: "input",
             message: "how many would you like [Quit with Q]?",
-            name: "question2"
-        }
-    ])
-        .then(function (answer) {
-            // console.log(answer.question1);
-            // loop through the array of objects
-            var userSelection = answer.question1;
-            var userSelectionQty = answer.question2;
-            // console.log(userSelection);
-            // console.log(userSelectionQty);
-            if (userSelection.toUpperCase() === "q") {
-                console.log(Q);
-                // connection.end();
-                // askQuestions(res);
-                
-            }
-            else {
-                for (var j = 0; j < res.length; j++) {
-                    // console.log("id found " + res[i].item_id);
-                    if (userSelection == res[j].item_id) {
-                        // console.log("you got it ");
-                        // get the stock qty of that particular item
-                        var newStockQty = res[j].stock_quantity - userSelectionQty;
-                        console.log(newStockQty);
-                        // update the table with the new updated value
-                        updateStockValue(userSelection, newStockQty);
-
-                    }
+            name: "question2",
+            validate: function (value) {
+                if (value.toUpperCase() == "Q") {
+                    process.exit(1);
+                    //  dont go to next question
                 }
+                return true;
             }
-        });
+        }
+    ]).then(function (answer) {
+        //  console.log(answer.question1);
+        // loop through the array of objects
+        var userSelection = answer.question1;
+        var userSelectionQty = answer.question2;
+        console.log(userSelection);
+        console.log(userSelectionQty);
+
+        for (var j = 0; j < res.length; j++) {
+            // console.log("id found " + res[i].item_id);
+            if (userSelection == res[j].item_id) {
+                // console.log("you got it ");
+                // get the stock qty of that particular item
+                var newStockQty = res[j].stock_quantity - userSelectionQty;
+                console.log(newStockQty);
+                // update the table with the new updated value
+                 updateStockValue(userSelection, newStockQty);
+
+            }
+        }
+
+    });
+
+    
 }
 
 function updateStockValue(userSelection, newStockQty) {
