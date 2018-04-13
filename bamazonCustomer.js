@@ -4,10 +4,8 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
-
     // Your username
     user: "root",
-
     // Your password
     password: "password",
     database: "bamazon"
@@ -17,7 +15,7 @@ connection.connect(function (err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId + "\n");
     readProducts();
-    // connection.end();
+    
 });
 // table should be displayed when the app starts
 // read table data
@@ -28,7 +26,7 @@ function readProducts() {
         // Log all results of the SELECT statement
         console.log(res);
         askQuestions(res);
-        // connection.end();
+        
     });
 }
 function askQuestions(res) {
@@ -90,7 +88,7 @@ function updateStockValue(userSelection,newStockQty) {
             console.log(query.sql);
             // reading products again
             readProducts();
-            connection.end();
+            
         }
     )
 }
