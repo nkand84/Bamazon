@@ -122,3 +122,9 @@ function updateStockValue(userSelection, newStockQty) {
         }
     )
 }
+
+// show the questions again
+// if the item is out of stock(if user enters more than the given stock qty)
+// message is displayed "Insufficient quantity!!"
+// display table of items again
+// app starts again with prompt of questions 
