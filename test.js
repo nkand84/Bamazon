@@ -1,6 +1,11 @@
 // npm packages
 var inquirer = require('inquirer');
 var mysql = require('mysql');
+var { table } = require('table');
+
+let data, output;
+
+
 var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -10,7 +15,6 @@ var connection = mysql.createConnection({
     password: "password",
     database: "bamazon"
 });
-
 connection.connect(function (err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId + "\n");
@@ -21,14 +25,25 @@ connection.connect(function (err) {
 // read table data
 function readProducts() {
     console.log("Displaying all products...\n");
+    var finalTable = [];
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
         // Log all results of the SELECT statement
-        console.log(res);
+        // console.log(res);
+        for (var i = 0; i < res.length; i++) {
+            // data = [['ProductId', 'ProductName', 'DepartmentName','Price($)','StockQuantity']];
+            var data = [res[i].item_id, res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity];
+            // console.log(data);
+            finalTable.push(data);
+        }
+        // console.log(finalTable);
+        output = table(finalTable);
+        console.log(output);
+        // connection.end();
         askQuestions(res);
-
     });
 }
+
 function askQuestions(res) {
     inquirer.prompt([
         {
@@ -38,7 +53,14 @@ function askQuestions(res) {
 
             type: "input",
             message: "what is the id of the item you would like to purchase? [Quit with Q]",
-            name: "question1"
+            name: "question1",
+            validate: function(value) {
+                if (value.toUpperCase() == "Q") {
+                  console.log("its Q");
+                }
+                console.log("not Q");
+              }
+      
         },
         {
             // how many would you like [Quit with Q]? 
@@ -54,17 +76,19 @@ function askQuestions(res) {
             var userSelectionQty = answer.question2;
             // console.log(userSelection);
             // console.log(userSelectionQty);
-            if (userSelection === "Q") {
+            if (userSelection.toUpperCase() === "q") {
+                console.log(Q);
                 // connection.end();
+                // askQuestions(res);
                 
             }
             else {
-                for (var i = 0; i < res.length; i++) {
+                for (var j = 0; j < res.length; j++) {
                     // console.log("id found " + res[i].item_id);
-                    if (userSelection == res[i].item_id) {
+                    if (userSelection == res[j].item_id) {
                         // console.log("you got it ");
                         // get the stock qty of that particular item
-                        var newStockQty = res[i].stock_quantity - userSelectionQty;
+                        var newStockQty = res[j].stock_quantity - userSelectionQty;
                         console.log(newStockQty);
                         // update the table with the new updated value
                         updateStockValue(userSelection, newStockQty);
@@ -98,8 +122,3 @@ function updateStockValue(userSelection, newStockQty) {
         }
     )
 }
-// show the questions again
-// if the item is out of stock(if user enters more than the given stock qty)
-// message is displayed "Insufficient quantity!!"
-// display table of items again
-// app starts again with prompt of questions 
