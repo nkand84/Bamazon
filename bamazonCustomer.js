@@ -17,14 +17,15 @@ var connection = mysql.createConnection({
 });
 connection.connect(function (err) {
     if (err) throw err;
-    console.log("connected as id " + connection.threadId + "\n");
     readProducts();
 
 });
 // table should be displayed when the app starts
 // read table data
 function readProducts() {
-    console.log("Displaying all products...\n");
+    console.log("================================================================================");
+    console.log("                     WELCOME TO BAMAZON...ENJOY YOUR SHOPPING");
+    console.log("================================================================================");
     var finalTable = [];
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
@@ -52,7 +53,7 @@ function askQuestions(res) {
             message: "what is the id of the item you would like to purchase? [Quit with Q]",
             name: "question1",
             validate: function (value) {
-                if (value.toUpperCase() === "Q") {
+                if (value.toUpperCase() == "Q") {
                     connection.end();
                     process.exit(1);
                 }
@@ -60,46 +61,44 @@ function askQuestions(res) {
             }
         },
         {
-            // how many would you like [Quit with Q]? 
             type: "input",
             message: "how many would you like [Quit with Q]?",
             name: "question2",
             validate: function (value) {
-                if (value.toUpperCase() === "Q") {
+                if (value.toUpperCase() == "Q") {
                     connection.end();
                     process.exit(1);
                 }
-                return true; 
+                return true;
             }
         }
     ]).then(function (answer) {
-
-        // loop through the array 
         var userSelection = answer.question1;
         var userSelectionQty = answer.question2;
-        for (var j = 0; j < res.length; j++) {
-            if (userSelection == res[j].item_id) {
-                if (userSelectionQty > res[j].stock_quantity) {
-                    // if the item is out of stock(if user enters more than the given stock qty)
-                    // message is displayed "Insufficient quantity!!"
-                    console.log("Insufficent quantity!");
-                    askQuestions(res);
-                }
-                else {
-                    // get the stock qty of that particular item
-                    var newStockQty = res[j].stock_quantity - userSelectionQty;
-                    // update the table with the new updated value
-                    updateStockValue(userSelection, newStockQty);
-                }
+        var query = "SELECT stock_quantity,product_name,price FROM products WHERE ?";
+        connection.query(query, { item_id: answer.question1 }, function (err, res) {
+            if (userSelectionQty > res[0].stock_quantity) {
+                // if the item is out of stock
+                console.log("================================================================================");
+                console.log("Insufficent quantity! Please select something else..");
+                console.log("================================================================================");
+                askQuestions(res);
             }
-        }
-
+            else {
+                // get the stock qty of that particular item
+                var newStockQty = res[0].stock_quantity - userSelectionQty;
+                // update the table with the new updated value
+                updateStockValue(userSelection, newStockQty,userSelectionQty,res);
+            }
+        });
     });
+
 }
 
-// update stock function
-function updateStockValue(userSelection, newStockQty) {
-    console.log("Updating the stock quantity...\n");
+// update table data
+function updateStockValue(userSelection, newStockQty,userSelectionQty,res) {
+    console.log("================================================================================");
+    console.log("    Successfully purchased "+ userSelectionQty +" of "+ res[0].product_name+" for a purchase price of $"+(userSelectionQty*res[0].price).toFixed(2));
     var query = connection.query(
         "UPDATE products SET ? WHERE ?",
         [
@@ -112,13 +111,9 @@ function updateStockValue(userSelection, newStockQty) {
         ],
         function (err, res) {
             if (err) throw err;
-            console.log(res.affectedRows + " product stock updated!\n");
-            // logs the actual query being run
-            console.log(query.sql);
-            // app starts again with prompt of questions 
             // reading products again
             readProducts();
-
+           
         }
     )
 }
