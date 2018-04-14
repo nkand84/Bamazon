@@ -1,9 +1,9 @@
 <h1>Bamazon</h1>
-<h5>Amazon-like storefront CLI-Application with the MySQL and Node JS</h5>
+<h5>Amazon-like storefront CLI-Application with Node JS and MySQL</h5>
 <p>The app will take in orders from customers and deplete stock from the store's inventory. </p>
 <h4>Customer View</h4>
 <hr>
-<img src="bamazon.GIF" alt="Bamazon App Giphy">
+<img src="bamazon.GIF" alt="Bamazon App">
 
 <h4> App Functionality</h4>
 <hr>
