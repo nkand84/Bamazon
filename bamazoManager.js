@@ -73,7 +73,7 @@ function listOptions() {
 // available product means stock value greater than 0!!
 function readAvailableProducts() {
     console.log("Displaying available products...\n");
-    connection.query("SELECT * FROM products WHERE stock_quantity > 0",function (err, res) {
+    connection.query("SELECT * FROM products WHERE stock_quantity > 0", function (err, res) {
         if (err) throw err;
         const table = cTable.getTable(res);
         console.log(table);
@@ -85,7 +85,7 @@ function readAvailableProducts() {
 // it should list all items with an inventory count lower than five
 function showLowInventory() {
     // if stock qty less than five then show low inventory
-    connection.query("SELECT * FROM products WHERE stock_quantity < 5",function (err, res) {
+    connection.query("SELECT * FROM products WHERE stock_quantity < 5", function (err, res) {
         if (err) throw err;
         const table = cTable.getTable(res);
         console.log(table);
@@ -94,3 +94,116 @@ function showLowInventory() {
     });
 }
 
+// If a manager selects Add to Inventory
+function addToInventory() {
+    // display a prompt that will let the manager "add more" of any item currently in the store.
+    var managerSelection;
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "Enter the product name",
+            name: "additem",
+            validate: function (value) {
+
+            console.log(value);
+            connection.query("SELECT * FROM products WHERE product_name='" + value + "'", function (err, res) {
+                    // console.log(res);
+                    // if (res.length > 0) {
+                    //     console.log(answer.addstock);
+                    //     // if item already exists then add the stock to the existing item
+                    //     var updatedStockQty = parseFloat(res[0].stock_quantity) + parseFloat(answer.addstock);
+                    //     console.log(updatedStockQty);
+                    //     console.log("The product you are trying to add already exists!!, updating the product...");
+                    //     connection.query(
+                    //         "UPDATE products SET ? WHERE ?",
+                    //         [
+                    //             {
+                    //                 stock_quantity: updatedStockQty
+                    //             },
+                    //             {
+                    //                 product_name: answer.additem
+                    //             }
+                    //         ], function (error) {
+                    //             if (error) throw err;
+                    //             console.log("Succesfully Updated Product!");
+                    //             // display updated list
+                    //             readAvailableProducts();
+                    //             // and start the questions again
+                    //         });
+                    // }
+
+                
+
+                });
+            
+        },
+        {
+            type: "input",
+            message: "Enter the Department Name for this product",
+            name: "adddept"
+        },
+        {
+            type: "input",
+            message: "Enter the price of the product",
+            name: "addprice"
+        },
+        {
+            type: "input",
+            message: "Enter the stock quantity of the product",
+            name: "addstock"
+        }
+
+    ]).then(function (answer) {
+
+        // if product name is same as db product name then add the stock price only
+        connection.query("SELECT * FROM products WHERE product_name='" + answer.additem + "'", function (err, res) {
+            // console.log(res);
+            if (res.length > 0) {
+                console.log(answer.addstock);
+                // if item already exists then add the stock to the existing item
+                var updatedStockQty = parseFloat(res[0].stock_quantity) + parseFloat(answer.addstock);
+                console.log(updatedStockQty);
+                console.log("The product you are trying to add already exists!!, updating the product...");
+                connection.query(
+                    "UPDATE products SET ? WHERE ?",
+                    [
+                        {
+                            stock_quantity: updatedStockQty
+                        },
+                        {
+                            product_name: answer.additem
+                        }
+                    ], function (error) {
+                        if (error) throw err;
+                        console.log("Succesfully Updated Product!");
+                        // display updated list
+                        readAvailableProducts();
+                        // and start the questions again
+                    });
+            }
+
+            else {
+                // if product doesnt exist then insert into the db
+                var query = "INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('" + answer.additem + "'," + "'" + answer.adddept + "'," + "'" + answer.addprice + "'," + "'" + answer.addstock + "')";
+                connection.query(query, function (err, res) {
+                    console.log("Succesfully added item tot the inventory");
+                    // display the table again
+                    readAvailableProducts();
+                    //     console.log(res);
+
+                });
+            }
+        });
+
+    });
+    // 
+    // console.log(answer.additem, answer.adddept, answer.addprice, answer.addstock);
+    // addToInventory();
+    // INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('God of War','Video Games',29.95,40);
+    // var query = "INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('" + answer.additem + "'," + "'" + answer.adddept + "'," + "'" + answer.addprice + "'," + "'" + answer.addstock + "')";
+    // connection.query(query, function (err, res) {
+    //     console.log("Succesfully added item tot the inventory");
+    //     console.log(res);
+
+    // });
+}
