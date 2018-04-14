@@ -82,7 +82,7 @@ function askQuestions(res) {
                 console.log("================================================================================");
                 console.log("Insufficent quantity! Please select something else..");
                 console.log("================================================================================");
-                askQuestions(res);
+                askQuestions(res); 
             }
             else {
                 // get the stock qty of that particular item
