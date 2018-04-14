@@ -3,7 +3,7 @@
 <p>The app will take in orders from customers and deplete stock from the store's inventory. </p>
 <h4>Customer View</h4>
 <hr>
-<img src="bamazon.gif" alt="Bamazon App Giphy">
+<img src="bamazon.GIF" alt="Bamazon App Giphy">
 
 <h4> App Functionality</h4>
 <hr>
