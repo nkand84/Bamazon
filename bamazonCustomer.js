@@ -76,11 +76,11 @@ function askQuestions(res) {
         var userSelection = answer.question1;
         var userSelectionQty = answer.question2;
         var query = "SELECT stock_quantity,product_name,price FROM products WHERE ?";
-        connection.query(query, { item_id: answer.question1 }, function (err, res) {
+        connection.query(query, { item_id: userSelection }, function (err, res) {
             if (userSelectionQty > res[0].stock_quantity) {
                 // if the item is out of stock
                 console.log("================================================================================");
-                console.log("Insufficent quantity! Please select something else..");
+                console.log("                Insufficent quantity! Please select something else..");
                 console.log("================================================================================");
                 askQuestions(res); 
             }

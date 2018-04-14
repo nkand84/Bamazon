@@ -25,6 +25,6 @@ INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('T
 INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('Despicable Me','Films',14.99,40);
 INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('Ray Ban Sunglasses','Apparel',102.95,40);
 INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('Worn Denim Jeans','Apparel',55.25,40);
-UPDATE products SET stock_quantity = 55 WHERE department_name="Films";
-UPDATE products SET stock_quantity = 45 WHERE item_id=1;
+UPDATE products SET stock_quantity = 0 WHERE department_name="Films";
+UPDATE products SET stock_quantity = 4 WHERE item_id=4;
 SELECT * FROM products;

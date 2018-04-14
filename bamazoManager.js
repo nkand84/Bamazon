@@ -13,6 +13,7 @@ var inquirer = require('inquirer');
 var mysql = require('mysql');
 var { table } = require('table');
 var color = require('bash-color');
+const cTable = require('console.table');
 
 let data, output;
 
@@ -40,58 +41,56 @@ function listOptions() {
             type: "list",
             message: "What would you like to do?",
             choices: [
-              "View Products for Sale",
-              "View Low Inventory",
-              "Add to Inventory",
-              "Add New Product"
+                "View Products for Sale",
+                "View Low Inventory",
+                "Add to Inventory",
+                "Add New Product"
             ]
-                    
+
         }
-    ]).then(function(answer) {
+    ]).then(function (answer) {
         switch (answer.action) {
             case "View Products for Sale":
-              readProducts();
-              break;
-      
-            case  "View Low Inventory":
-              showLowInventory();
-              break;
-      
+                readAvailableProducts();
+                break;
+
+            case "View Low Inventory":
+                showLowInventory();
+                break;
+
             case "Add to Inventory":
-              addToInventory();
-              break;
-      
+                addToInventory();
+                break;
+
             case "Add New Product":
-              addNewProduct();
-              break;
-            }
+                addNewProduct();
+                break;
+        }
 
     });
 }
-
-function readProducts() {
-    console.log("Displaying all products...\n");
-    var finalTable = [];
-    connection.query("SELECT * FROM products", function (err, res) {
+// If a manager selects View Products for Sale, the app should list every available item: the item IDs, names, prices, and quantities.
+// available product means stock value greater than 0!!
+function readAvailableProducts() {
+    console.log("Displaying available products...\n");
+    connection.query("SELECT * FROM products WHERE stock_quantity > 0",function (err, res) {
         if (err) throw err;
-        // console.log(res);
-        var data = ['ProductId', 'ProductName', 'DepartmentName', 'Price($)', 'StockQuantity'];
-        finalTable.push(data);
-        for (var i = 0; i < res.length; i++) {
-            data = [color.white(res[i].item_id), color.white(res[i].product_name), color.white(res[i].department_name), color.white(res[i].price), color.white(res[i].stock_quantity)];
-            // console.log(data);
-            finalTable.push(data);
-        }
-        // console.log(finalTable);
-        output = table(finalTable);
-        console.log(color.green(output));
-        connection.end();
-        
+        const table = cTable.getTable(res);
+        console.log(table);
+        // connection.end();
+        listOptions();
     });
 }
 
 // it should list all items with an inventory count lower than five
-function showLowInventory(res) {
-// if stock qty less than five then show low inventory
-
+function showLowInventory() {
+    // if stock qty less than five then show low inventory
+    connection.query("SELECT * FROM products WHERE stock_quantity < 5",function (err, res) {
+        if (err) throw err;
+        const table = cTable.getTable(res);
+        console.log(table);
+        listOptions();
+        // connection.end();
+    });
 }
+

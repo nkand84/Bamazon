@@ -24,6 +24,7 @@
     "bash-color": "0.0.4",
     "cfonts": "^1.2.0",
     "cli-table": "^0.3.1",
+    "console.table": "^0.10.0",
     "inquirer": "^5.2.0",
     "json-schema-table": "^1.0.10",
     "mysql": "^2.15.0",
