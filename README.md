@@ -1,5 +1,5 @@
 # Bamazon
-<p>Amazon-like storefront with the MySQL and Node JS</p>
+<p>Amazon-like storefront CLI-Application with the MySQL and Node JS</p>
 
 <p>The app will take in orders from customers and deplete stock from the store's inventory. </p>
 <img src="bamazon.gif" alt="Bamazon App Giphy">
@@ -10,11 +10,10 @@
 <li>department_name</li>
 <li>price (cost to customer)</li>
 <li>stock_quantity (how much of the product is available in stores)</li>
-
 <p>Running this application will first display all of the items available for sale. Includes the ids, names, and prices of products for sale.</p>
 <p>The app should then prompt users with two messages:</p>
-&nbsp;&nbsp;<p>The first should ask them the ID of the product they would like to buy.</p>
-&nbsp;&nbsp;<p>The second message should ask how many units of the product they would like to buy.</p>
+<ul><li>The first should ask them the ID of the product they would like to buy.</li>
+<li>The second message should ask how many units of the product they would like to buy.</li></ul>
 <p>Once the customer has placed the order, the application should check if your store has enough of the product to meet the customer's request.</p>
 <p>If not, the app should log a phrase like Insufficient quantity!, and then prevent the order from going through.</p>
 <p>However, if the store does have enough of the product, app should fulfill the customer's order.</p>
