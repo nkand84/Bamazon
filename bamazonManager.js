@@ -32,7 +32,8 @@ function listOptions() {
                 "View Products for Sale",
                 "View Low Inventory",
                 "Add to Inventory",
-                "Add New Product"
+                "Add New Product",
+                "Exit"
             ]
         }
     ]).then(function (answer) {
@@ -52,6 +53,11 @@ function listOptions() {
             case "Add New Product":
                 addNewProduct();
                 break;
+
+            case "Exit":
+                exitApp();
+                break;
+
         }
 
     });
@@ -108,7 +114,7 @@ function addToInventory() {
                     function (error) {
                         if (error) throw err;
                         console.log("===========================================================================");
-                        console.log("Succesfully Updated product with id " + answer.addItem + " with a stock quantity of " + answer.addStock);
+                        console.log("Succesfully Updated product of id " + answer.addItem + " with a stock quantity " + answer.addStock);
                         console.log("===========================================================================");
                         // display updated list
                         readAvailableProducts();
@@ -148,7 +154,7 @@ function addNewProduct() {
             stock_quantity: answer.addStock
         }, function (err, res) {
             console.log("=============================================");
-            console.log(" Succesfully added new item to the inventory!");
+            console.log(" Succesfully added "+ answer.addItemName + " for a price of " + answer.addPrice + " and stocked "+ answer.addStock +" number of units");
             console.log("=============================================");
             // display the table again
             readAvailableProducts();
@@ -157,4 +163,8 @@ function addNewProduct() {
     });
 }
 
-
+// Exit App
+function exitApp(){
+    connection.end();
+    process.exit();
+}
