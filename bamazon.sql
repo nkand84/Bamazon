@@ -28,3 +28,4 @@ INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('W
 UPDATE products SET stock_quantity = 0 WHERE department_name="Films";
 UPDATE products SET stock_quantity = 4 WHERE item_id=4;
 SELECT * FROM products;
+DELETE FROM products where item_id=17;

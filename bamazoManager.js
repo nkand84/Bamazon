@@ -1,13 +1,3 @@
-// List a set of menu options:
-// View Products for Sale
-// View Low Inventory
-// Add to Inventory
-// Add New Product
-// If a manager selects View Products for Sale, the app should list every available item: the item IDs, names, prices, and quantities.
-// If a manager selects View Low Inventory, then it should list all items with an inventory count lower than five.
-// If a manager selects Add to Inventory, your app should display a prompt that will let the manager "add more" of any item currently in the store.
-// If a manager selects Add New Product, it should allow the manager to add a completely new product to the store.
-
 // npm packages
 var inquirer = require('inquirer');
 var mysql = require('mysql');
@@ -28,9 +18,7 @@ var connection = mysql.createConnection({
 });
 connection.connect(function (err) {
     if (err) throw err;
-    console.log("connected as id " + connection.threadId + "\n");
     listOptions();
-
 });
 
 function listOptions() {
@@ -46,7 +34,6 @@ function listOptions() {
                 "Add to Inventory",
                 "Add New Product"
             ]
-
         }
     ]).then(function (answer) {
         switch (answer.action) {
@@ -69,15 +56,13 @@ function listOptions() {
 
     });
 }
-// If a manager selects View Products for Sale, the app should list every available item: the item IDs, names, prices, and quantities.
-// available product means stock value greater than 0!!
+
 function readAvailableProducts() {
-    console.log("Displaying available products...\n");
+    console.log("Available products...\n");
     connection.query("SELECT * FROM products WHERE stock_quantity > 0", function (err, res) {
         if (err) throw err;
         const table = cTable.getTable(res);
-        console.log(table);
-        // connection.end();
+        console.log(color.green(table));
         listOptions();
     });
 }
@@ -89,7 +74,6 @@ function showLowInventory() {
         const table = cTable.getTable(res);
         console.log(table);
         listOptions();
-        // connection.end();
     });
 }
 
@@ -100,22 +84,17 @@ function addToInventory() {
         {
             type: "input",
             message: "Enter the product id",
-            name: "additem"
+            name: "addItem"
         },
         {
             type: "input",
             message: "Enter the stock quantity of the product",
-            name: "addstock"
+            name: "addStock"
         }
     ]).then(function (answer) {
-
-        // if product name is same as db product name then add the stock price only
-        connection.query("SELECT * FROM products WHERE item_id='" + answer.additem + "'", function (err, res) {
-            // console.log(res);
+        connection.query("SELECT * FROM products WHERE item_id='" + answer.addItem + "'", function (err, res) {
             if (res.length > 0) {
-                var updatedStockQty = parseFloat(res[0].stock_quantity) + parseFloat(answer.addstock);
-                console.log(updatedStockQty);
-                console.log("Updating the inventory...");
+                var updatedStockQty = parseFloat(res[0].stock_quantity) + parseFloat(answer.addStock);
                 connection.query(
                     "UPDATE products SET ? WHERE ?",
                     [
@@ -123,15 +102,16 @@ function addToInventory() {
                             stock_quantity: updatedStockQty
                         },
                         {
-                            item_id: answer.additem
+                            item_id: answer.addItem
                         }
                     ],
                     function (error) {
                         if (error) throw err;
-                        console.log("Succesfully Updated Product!");
+                        console.log("===========================================================================");
+                        console.log("Succesfully Updated product with id " + answer.addItem + " with a stock quantity of " + answer.addStock);
+                        console.log("===========================================================================");
                         // display updated list
                         readAvailableProducts();
-                        // and start the questions again
                     });
             }
         });
@@ -143,34 +123,38 @@ function addNewProduct() {
         {
             type: "input",
             message: "Enter the Product name",
-            name: "additemname"
+            name: "addItemName"
         },
         {
             type: "input",
             message: "Enter the Department Name",
-            name: "adddept"
+            name: "addDept"
         },
         {
             type: "input",
             message: "Enter the price",
-            name: "addprice"
+            name: "addPrice"
         },
         {
             type: "input",
             message: "Enter the stock quantity",
-            name: "addstock"
+            name: "addStock"
         }
-
     ]).then(function (answer) {
-
-        var query = "INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('" + answer.additemname + "'," + "'" + answer.adddept + "'," + "'" + answer.addprice + "'," + "'" + answer.addstock + "')";
-        connection.query(query, function (err, res) {
-            console.log("Succesfully added new item to the inventory!");
+        connection.query("INSERT INTO products SET ?", {
+            product_name: answer.addItemName,
+            department_name: answer.addDept,
+            price: answer.addPrice,
+            stock_quantity: answer.addStock
+        }, function (err, res) {
+            console.log("=============================================");
+            console.log(" Succesfully added new item to the inventory!");
+            console.log("=============================================");
             // display the table again
             readAvailableProducts();
-            //console.log(res);
-
         });
 
     });
 }
+
+
