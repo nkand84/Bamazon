@@ -1,11 +1,6 @@
 <h1>Bamazon</h1>
 <h5>Amazon-like storefront CLI-Application with Node JS and MySQL</h5>
-<h4>Customer View</h4>
-<hr>
-<img src="bamazon.gif" alt="Bamazon Customer View">
-<h4>Customer View - App Functionality</h4>
-<hr>
-<p>The app will take in orders from customers and deplete stock from the store's inventory. </p>
+<p>MySQL setup</p>
 <p>- The products table contains each of the following columns:</p>
 <ul>
 <li>item_id (unique id for each product)</li>
@@ -14,6 +9,19 @@
 <li>price (cost to customer)</li>
 <li>stock_quantity (how much of the product is available in stores)</li>
 </ul>
+<p>There are two versions of the Bamazon app</p>
+<ul>
+<li>Customer View</li>
+<li>Manager View</li>
+</ul>
+<hr>
+<h4>Customer View</h4>
+<hr>
+<img src="bamazon.gif" alt="Bamazon Customer View">
+<h4>Customer View - App Functionality</h4>
+<hr>
+<p>The app will take in orders from customers and deplete stock from the store's inventory. </p>
+
 <p>- Running this application will first display all of the items available for sale. Includes the ids, names, and prices of products for sale.</p>
 <p>- The app should then prompt customers with two messages:</p>
 <ul><li>The first prompt should ask for the ID of the product they would like to buy.</li>
