@@ -9,7 +9,14 @@
 <li>price (cost to customer)</li>
 <li>stock_quantity (how much of the product is available in stores)</li>
 </ul>
-<p>There are two versions of the Bamazon app</p>
+<p>NPM Modules setup</p>
+<ul>
+<li>mysql</li>
+<li>inquirer</li>
+<li>table</li>
+<li>console table</li>
+</ul>
+<p>There are two views of the Bamazon app</p>
 <ul>
 <li>Customer View</li>
 <li>Manager View</li>
