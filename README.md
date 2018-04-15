@@ -21,7 +21,6 @@
 <li>Customer View</li>
 <li>Manager View</li>
 </ul>
-<hr>
 <h4>Customer View</h4>
 <hr>
 <img src="bamazon.gif" alt="Bamazon Customer View">
