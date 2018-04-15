@@ -1,11 +1,11 @@
 <h1>Bamazon</h1>
 <h5>Amazon-like storefront CLI-Application with Node JS and MySQL</h5>
-<p>The app will take in orders from customers and deplete stock from the store's inventory. </p>
 <h4>Customer View</h4>
 <hr>
 <img src="bamazon.gif" alt="Bamazon Customer View">
 <h4>Customer View - App Functionality</h4>
 <hr>
+<p>The app will take in orders from customers and deplete stock from the store's inventory. </p>
 <p>- The products table contains each of the following columns:</p>
 <ul>
 <li>item_id (unique id for each product)</li>
