@@ -1,6 +1,6 @@
 <h1>Bamazon</h1>
 <h5>Amazon-like storefront CLI-Application with Node JS and MySQL</h5>
-<p>MySQL setup</p>
+<h4>MySQL setup</h4>
 <p>- The products table contains each of the following columns:</p>
 <ul>
 <li>item_id (unique id for each product)</li>
@@ -9,7 +9,7 @@
 <li>price (cost to customer)</li>
 <li>stock_quantity (how much of the product is available in stores)</li>
 </ul>
-<p>NPM Modules setup</p>
+<h4>NPM Modules</h4>
 <ul>
 <li>mysql</li>
 <li>inquirer</li>
