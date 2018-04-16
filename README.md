@@ -31,7 +31,7 @@
 </ul>
 <h4>Customer View</h4>
 <hr>
-<img src="customer.gif" alt="Bamazon Customer View">
+<img src="imgs/customer.gif" alt="Bamazon Customer View">
 <h4>Customer View - App Functionality</h4>
 <hr>
 <p>The app will take in orders from customers and deplete stock from the store's inventory. </p>
@@ -47,7 +47,7 @@
 <li>Once the update goes through, the total cost of their purchase is displayed.</li></ul>
 <h4>Manager View</h4>
 <hr>
-<img src="manager.gif" alt="Bamazon Manager View">
+<img src="imgs/manager.gif" alt="Bamazon Manager View">
 <h4>Manager View - App Functionality</h4>
 <hr>
 <p> Running this application will:</p>
@@ -64,7 +64,7 @@
 <p>If a manager selects "Exit",it should exit the app</p>
 <h4>Supervisor View</h4>
 <hr>
-<img src="supervisor.gif" alt="Bamazon Supervisor View">
+<img src="imgs/supervisor.gif" alt="Bamazon Supervisor View">
 <h4>Supervisor View - App Functionality</h4>
 <hr>
 <p>HINT: Modify the products table so that there's a product_sales column and modify the bamazonCustomer.js app so that this value is updated with each individual products total revenue from each sale.Modify your bamazonCustomer.js app so that when a customer purchases anything from the store, the price of the product multiplied by the quantity purchased is added to the product's product_sales column.Make sure the app still updates the inventory listed in the products column.</p>
