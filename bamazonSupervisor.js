@@ -55,7 +55,7 @@ function viewSalesByDept() {
     connection.query(query, function (err, res) {
         if (err) throw err;
         const table = cTable.getTable(res);
-        console.log(table);
+        console.log(color.green(table));
         listOptions();
     });
 }
