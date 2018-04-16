@@ -45,7 +45,8 @@ ALTER TABLE products ADD product_sales FLOAT;
 SELECT * FROM products;
 DELETE FROM products where item_id=17;
 -- join products and departments
-SELECT departments.department_id,departments.department_name,departments.over_head_costs,products.product_sales,(departments.over_head_costs - products.product_sales)AS total_profit
-FROM departments INNER JOIN products ON departments.department_name = products.department_name GROUP BY departments.department_name DESC;
+SELECT departments.department_id,departments.department_name,departments.over_head_costs,round(sum(products.product_sales),2) AS product_sales,round((departments.over_head_costs - products.product_sales),2) AS total_profit
+FROM departments INNER JOIN products ON departments.department_name = products.department_name GROUP BY departments.department_name;
+-- to get sum of all product_sales fom products table
+SELECT sum(product_sales),department_name FROM products GROUP BY department_name;
 
--- GROUP BY departments.department_name

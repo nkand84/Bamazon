@@ -51,7 +51,7 @@ function listOptions() {
 
 // view sales by dept
 function viewSalesByDept() {
-    var query = "SELECT departments.department_id,departments.department_name,departments.over_head_costs,products.product_sales,(departments.over_head_costs - products.product_sales)AS total_profit FROM departments INNER JOIN products ON departments.department_name = products.department_name GROUP BY departments.department_id";
+    var query = "SELECT departments.department_id,departments.department_name,departments.over_head_costs,round(sum(products.product_sales),2)AS product_sales,round((departments.over_head_costs - products.product_sales),2)AS total_profit FROM departments INNER JOIN products ON departments.department_name = products.department_name GROUP BY departments.department_name";
     connection.query(query, function (err, res) {
         if (err) throw err;
         const table = cTable.getTable(res);
