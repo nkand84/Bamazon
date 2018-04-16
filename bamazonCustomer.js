@@ -30,10 +30,10 @@ function readProducts() {
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
         // console.log(res);
-        var data = ['ProductId', 'ProductName', 'DepartmentName', 'Price($)', 'StockQuantity'];
+        var data = ['ProductId', 'ProductName', 'DepartmentName', 'Price($)', 'StockQuantity', 'ProductSales'];
         finalTable.push(data);
         for (var i = 0; i < res.length; i++) {
-            data = [color.white(res[i].item_id), color.white(res[i].product_name), color.white(res[i].department_name), color.white(res[i].price), color.white(res[i].stock_quantity)];
+            data = [color.white(res[i].item_id), color.white(res[i].product_name), color.white(res[i].department_name), color.white(res[i].price), color.white(res[i].stock_quantity), color.white(res[i].product_sales)];
             // console.log(data);
             finalTable.push(data);
         }
@@ -75,20 +75,20 @@ function askQuestions(res) {
     ]).then(function (answer) {
         var userSelection = answer.question1;
         var userSelectionQty = answer.question2;
-        var query = "SELECT stock_quantity,product_name,price FROM products WHERE ?";
+        var query = "SELECT stock_quantity,product_name,price,product_sales FROM products WHERE ?";
         connection.query(query, { item_id: userSelection }, function (err, res) {
             if (userSelectionQty > res[0].stock_quantity) {
                 // if the item is out of stock
                 console.log("================================================================================");
                 console.log("                Insufficent quantity! Please select something else..");
                 console.log("================================================================================");
-                askQuestions(res); 
+                askQuestions(res);
             }
             else {
                 // get the stock qty of that particular item
                 var newStockQty = res[0].stock_quantity - userSelectionQty;
                 // update the table with the new updated value
-                updateStockValue(userSelection, newStockQty,userSelectionQty,res);
+                updateStockValue(userSelection, newStockQty, userSelectionQty, res);
             }
         });
     });
@@ -96,24 +96,28 @@ function askQuestions(res) {
 }
 
 // update table data
-function updateStockValue(userSelection, newStockQty,userSelectionQty,res) {
+function updateStockValue(userSelection, newStockQty, userSelectionQty, res) {
     console.log("================================================================================");
-    console.log("    Successfully purchased "+ userSelectionQty +" of "+ res[0].product_name+" for a purchase price of $"+(userSelectionQty*res[0].price).toFixed(2));
+    console.log("    Successfully purchased " + userSelectionQty + " of " + res[0].product_name + " for a total purchase price of $" + (userSelectionQty * res[0].price).toFixed(2));
     var query = connection.query(
-        "UPDATE products SET ? WHERE ?",
+        "UPDATE products SET ?,? WHERE ?",
         [
             {
                 stock_quantity: newStockQty
+
+            },
+            {
+                product_sales: res[0].product_sales + userSelectionQty * res[0].price
             },
             {
                 item_id: userSelection
-            }
+            },
         ],
         function (err, res) {
             if (err) throw err;
             // reading products again
             readProducts();
-           
+
         }
     )
 }
