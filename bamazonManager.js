@@ -166,5 +166,5 @@ function addNewProduct() {
 // Exit App
 function exitApp(){
     connection.end();
-    process.exit();
+    
 }
