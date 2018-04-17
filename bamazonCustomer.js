@@ -55,7 +55,7 @@ function askQuestions(res) {
             validate: function (value) {
                 if (value.toUpperCase() == "Q") {
                     connection.end();
-                    process.exit();
+                    process.exit();   
                 }
                 return true;
             }
