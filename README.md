@@ -9,7 +9,7 @@
 <li>price (cost to customer)</li>
 <li>stock_quantity (how much of the product is available in stores)</li>
 </ul>
-<p>MySQL setup for Supervisor View</p>
+<h4>MySQL setup for Supervisor View</h4>
 <p>- The departments table should include the following columns:</p>
 <ul>
 <li>department_id</li>
